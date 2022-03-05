@@ -25,6 +25,9 @@ function wp_guten_options_block_init() {
 }
 add_action( 'init', 'wp_guten_options_block_init' );
 
+/**
+ * Register settings field for gutenberg api, so that it should be show_in_rest true
+ */
 function wp_guten_options_register_settings() {
 	register_setting(
 			'wp_guten_options_settings',
@@ -78,12 +81,15 @@ function wp_guten_options_register_settings() {
 }
 add_action( 'init', 'wp_guten_options_register_settings', 10 );
 
+/**
+ * Add admin menu page under Settings menu
+ */
 function wp_guten_options_settings_page() {
 	add_options_page(
 			__( 'Guten Options Settings', 'wp-guten-options' ),
 			__( 'Guten Options Settings', 'wp-guten-options' ),
 			'manage_options',
-			'wholesome_plugin_settings',
+			'wp_guten_options_settings',
 			function() {
 					?>
 					<div id="wp-guten-options-settings"></div>
@@ -93,6 +99,9 @@ function wp_guten_options_settings_page() {
 }
 add_action( 'admin_menu', 'wp_guten_options_settings_page', 10 );
 
+/**
+ * Enqueue js, css and generated php file (whic will automatically add all of the WordPress block editor (Gutenberg) dependancies for our admin script)
+ */
 function wp_guten_options_admin_scripts() {
 	$dir = __DIR__;
 
