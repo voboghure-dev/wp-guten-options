@@ -92,3 +92,32 @@ function wp_guten_options_settings_page() {
 	);
 }
 add_action( 'admin_menu', 'wp_guten_options_settings_page', 10 );
+
+function wp_guten_options_admin_scripts() {
+	$dir = __DIR__;
+
+	$script_asset_path = "$dir/build/admin.asset.php";
+	if ( ! file_exists( $script_asset_path ) ) {
+			throw new Error(
+					'You need to run `npm start` or `npm run build` for the "create-block/wp-guten-options" block first.'
+			);
+	}
+	$admin_js     = 'build/admin.js';
+	$script_asset = require( $script_asset_path );
+	wp_register_script(
+			'wp-guten-options-admin-editor',
+			plugins_url( $admin_js, __FILE__ ),
+			$script_asset['dependencies'],
+			$script_asset['version']
+	);
+	wp_set_script_translations( 'wp-guten-options-block-editor', 'wp-guten-options' );
+
+	$admin_css = 'build/admin.css';
+	wp_enqueue_style(
+			'wp-guten-options-admin',
+			plugins_url( $admin_css, __FILE__ ),
+			['wp-components'],
+			filemtime( "$dir/$admin_css" )
+	);
+}
+add_action( 'admin_enqueue_scripts', 'wp_guten_options_admin_scripts', 10 );
