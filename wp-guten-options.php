@@ -113,13 +113,13 @@ function wp_guten_options_admin_scripts() {
 	}
 	$admin_js     = 'build/admin.js';
 	$script_asset = require( $script_asset_path );
-	wp_register_script(
+	wp_enqueue_script(
 			'wp-guten-options-admin-editor',
 			plugins_url( $admin_js, __FILE__ ),
 			$script_asset['dependencies'],
 			$script_asset['version']
 	);
-	wp_set_script_translations( 'wp-guten-options-block-editor', 'wp-guten-options' );
+	wp_set_script_translations( 'wp-guten-options-block-editor', 'wholesome-plugin' );
 
 	$admin_css = 'build/admin.css';
 	wp_enqueue_style(
