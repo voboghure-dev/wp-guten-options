@@ -100,7 +100,9 @@ function wp_guten_options_settings_page() {
 add_action( 'admin_menu', 'wp_guten_options_settings_page', 10 );
 
 /**
- * Enqueue js, css and generated php file (whic will automatically add all of the WordPress block editor (Gutenberg) dependancies for our admin script)
+ * Enqueue js, css and generated php file
+ * (which will automatically add all of the WordPress block
+ * editor i.e. Gutenberg dependancies for our admin script)
  */
 function wp_guten_options_admin_scripts() {
 	$dir = __DIR__;
@@ -119,7 +121,7 @@ function wp_guten_options_admin_scripts() {
 			$script_asset['dependencies'],
 			$script_asset['version']
 	);
-	wp_set_script_translations( 'wp-guten-options-block-editor', 'wholesome-plugin' );
+	wp_set_script_translations( 'wp-guten-options-block-editor', 'wp-guten-options' );
 
 	$admin_css = 'build/admin.css';
 	wp_enqueue_style(
