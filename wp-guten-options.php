@@ -132,3 +132,26 @@ function wp_guten_options_admin_scripts() {
 	);
 }
 add_action( 'admin_enqueue_scripts', 'wp_guten_options_admin_scripts', 10 );
+
+/**
+ * Extend customizer and place root div for gutenberg
+ */
+function wp_guten_options_customizer_register( $wp_customize ) {
+
+	class WP_Guten_Options_Customizer_Control extends WP_Customize_Control {
+
+		public $type = 'wp-guten-options-control';
+
+		public function render_content() {}
+
+		public function content_template() {
+			?>
+				<div id="wp-guten-options-customizer"></div>
+			<?php
+		}
+
+	}
+
+	$wp_customize->register_control_type( 'WP_Guten_Options_Customizer_Control' );
+}
+add_action( 'customize_register', 'wp_guten_options_customizer_register', 10 );
