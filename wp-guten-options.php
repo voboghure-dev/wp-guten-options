@@ -30,53 +30,74 @@ add_action( 'init', 'wp_guten_options_block_init' );
  */
 function wp_guten_options_register_settings() {
 	register_setting(
-			'wp_guten_options_settings',
-			'wp_guten_options_select',
-			[
-					'default'      => '',
-					'show_in_rest' => true,
-					'type'         => 'string',
-			]
+		'wp_guten_options_settings',
+		'wp_guten_options_select',
+		[
+			'default'      => '',
+			'show_in_rest' => true,
+			'type'         => 'string',
+		]
 	);
 
 	register_setting(
-			'wp_guten_options_settings',
-			'wp_guten_options_text',
-			[
-					'default'      => '',
-					'show_in_rest' => true,
-					'type'         => 'string',
-			]
+		'wp_guten_options_settings',
+		'wp_guten_options_text',
+		[
+			'default'      => '',
+			'show_in_rest' => true,
+			'type'         => 'string',
+		]
 	);
 
 	register_setting(
-			'wp_guten_options_settings',
-			'wp_guten_options_text_2',
-			[
-					'default'      => '',
-					'show_in_rest' => true,
-					'type'         => 'string',
-			]
+		'wp_guten_options_settings',
+		'wp_guten_options_text_2',
+		[
+			'default'      => '',
+			'show_in_rest' => true,
+			'type'         => 'string',
+		]
 	);
 
 	register_setting(
-			'wp_guten_options_settings',
-			'wp_guten_options_text_3',
-			[
-					'default'      => '',
-					'show_in_rest' => true,
-					'type'         => 'string',
-			]
+		'wp_guten_options_settings',
+		'wp_guten_options_text_3',
+		[
+			'default'      => '',
+			'show_in_rest' => true,
+			'type'         => 'string',
+		]
 	);
 
 	register_setting(
-			'wp_guten_options_settings',
-			'wp_guten_options_toggle',
-			[
-					'default'      => '',
-					'show_in_rest' => true,
-					'type'         => 'string',
-			]
+		'wp_guten_options_settings',
+		'wp_guten_options_toggle',
+		[
+			'default'      => '',
+			'show_in_rest' => true,
+			'type'         => 'string',
+		]
+	);
+
+	// Register so that we can get this option from gutenberg
+	register_setting(
+		'wp_guten_customizer_settings',
+		'wp_guten_customizer_text_2',
+		[
+			'default'      => '',
+			'show_in_rest' => true,
+			'type'         => 'string',
+		]
+	);
+
+	register_setting(
+		'wp_guten_customizer_settings',
+		'wp_guten_customizer_toggle',
+		[
+			'default'      => '',
+			'show_in_rest' => true,
+			'type'         => 'string',
+		]
 	);
 }
 add_action( 'init', 'wp_guten_options_register_settings', 10 );
@@ -86,15 +107,15 @@ add_action( 'init', 'wp_guten_options_register_settings', 10 );
  */
 function wp_guten_options_settings_page() {
 	add_options_page(
-			__( 'Guten Options Settings', 'wp-guten-options' ),
-			__( 'Guten Options Settings', 'wp-guten-options' ),
-			'manage_options',
-			'wp_guten_options_settings',
-			function() {
-					?>
-					<div id="wp-guten-options-settings"></div>
-					<?php
-			},
+		__( 'Guten Options Settings', 'wp-guten-options' ),
+		__( 'Guten Options Settings', 'wp-guten-options' ),
+		'manage_options',
+		'wp_guten_options_settings',
+		function() {
+			?>
+			<div id="wp-guten-options-settings"></div>
+			<?php
+		},
 	);
 }
 add_action( 'admin_menu', 'wp_guten_options_settings_page', 10 );
@@ -109,26 +130,26 @@ function wp_guten_options_admin_scripts() {
 
 	$script_asset_path = "$dir/build/admin.asset.php";
 	if ( ! file_exists( $script_asset_path ) ) {
-			throw new Error(
-					'You need to run `npm start` or `npm run build` for the "create-block/wp-guten-options" block first.'
-			);
+		throw new Error(
+			'You need to run `npm start` or `npm run build` for the "create-block/wp-guten-options" block first.'
+		);
 	}
 	$admin_js     = 'build/admin.js';
 	$script_asset = require( $script_asset_path );
 	wp_enqueue_script(
-			'wp-guten-options-admin-editor',
-			plugins_url( $admin_js, __FILE__ ),
-			$script_asset['dependencies'],
-			$script_asset['version']
+		'wp-guten-options-admin-editor',
+		plugins_url( $admin_js, __FILE__ ),
+		$script_asset['dependencies'],
+		$script_asset['version']
 	);
 	wp_set_script_translations( 'wp-guten-options-admin-editor', 'wp-guten-options' );
 
 	$admin_css = 'build/admin.css';
 	wp_enqueue_style(
-			'wp-guten-options-admin',
-			plugins_url( $admin_css, __FILE__ ),
-			['wp-components'],
-			filemtime( "$dir/$admin_css" )
+		'wp-guten-options-admin',
+		plugins_url( $admin_css, __FILE__ ),
+		['wp-components'],
+		filemtime( "$dir/$admin_css" )
 	);
 }
 add_action( 'admin_enqueue_scripts', 'wp_guten_options_admin_scripts', 10 );
@@ -136,29 +157,32 @@ add_action( 'admin_enqueue_scripts', 'wp_guten_options_admin_scripts', 10 );
 /**
  * Extend customizer and place root div for gutenberg
  */
-function wp_guten_options_customizer_register( $wp_customize ) {
+function wp_guten_customizer_register( $wp_customize ) {
 
-	class WP_Guten_Options_Customizer_Control extends WP_Customize_Control {
+	class WP_Guten_Customizer_Control extends WP_Customize_Control {
 
-		public $type = 'wp-guten-options-control';
+		public $type = 'wp-guten-customizer-control';
 
 		public function render_content() {}
 
 		public function content_template() {
 			?>
-				<div id="wp-guten-options-customizer"></div>
+				<div id="wp-guten-customizer"></div>
 			<?php
 		}
 
 	}
 
-	$wp_customize->register_control_type( 'WP_Guten_Options_Customizer_Control' );
+	$wp_customize->register_control_type( 'WP_Guten_Customizer_Control' );
 
 	// Register customizer settings
+	// We can get this with get_theme_mod
 	$wp_customize->add_setting( 'wp_guten_customizer_select' );
 	$wp_customize->add_setting( 'wp_guten_customizer_text' );
+	// We can get this with get_option (We need to register with
+	// register_settings and show_in_rest need to keep true so we can access this via gutenberg)
 	$wp_customize->add_setting( 'wp_guten_customizer_text_2', [ 'type' => 'option' ] );
 	$wp_customize->add_setting( 'wp_guten_customizer_toggle', [ 'type' => 'option' ] );
 
 }
-add_action( 'customize_register', 'wp_guten_options_customizer_register', 10 );
+add_action( 'customize_register', 'wp_guten_customizer_register', 10 );
