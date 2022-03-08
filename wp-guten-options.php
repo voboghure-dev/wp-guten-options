@@ -186,3 +186,46 @@ function wp_guten_customizer_register( $wp_customize ) {
 
 }
 add_action( 'customize_register', 'wp_guten_customizer_register', 10 );
+
+/**
+ * Enqueue js, css and generated php file
+ * (which will automatically add all of the WordPress block
+ * editor i.e. Gutenberg dependancies for our customizer)
+ */
+function wp_guten_customizer_scripts() {
+	$dir = __DIR__;
+
+	$script_asset_path = "$dir/build/customizer.asset.php";
+	if ( ! file_exists( $script_asset_path ) ) {
+		throw new Error(
+			'You need to run `npm start` or `npm run build` for the "create-block/wp-guten-options" block first.'
+		);
+	}
+	$customizer_js = 'build/customizer.js';
+	$script_asset  = require( $script_asset_path );
+	wp_enqueue_script(
+		'wp-guten-customizer-editor',
+		plugins_url( $customizer_js, __FILE__ ),
+		$script_asset['dependencies'],
+		$script_asset['version']
+	);
+	wp_set_script_translations( 'wp-guten-customizer-editor', 'wp-guten-options' );
+
+	wp_localize_script(
+		'wp-guten-customizer-editor',
+		'WPGutenCustomizer',
+		[
+			'wp_guten_customizer_select' => get_theme_mod( 'wp_guten_customizer_select', '' ),
+			'wp_guten_customizer_text'   => get_theme_mod( 'wp_guten_customizer_text', '' ),
+		]
+	);
+
+	$customizer_css = 'build/customizer.css';
+	wp_enqueue_style(
+		'wp-guten-customizer',
+		plugins_url( $customizer_css, __FILE__ ),
+		['wp-components'],
+		filemtime( "$dir/$customizer_css" )
+	);
+}
+add_action( 'customize_controls_enqueue_scripts', 'wp_guten_customizer_scripts', 10 );
