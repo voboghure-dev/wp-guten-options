@@ -153,5 +153,12 @@ function wp_guten_options_customizer_register( $wp_customize ) {
 	}
 
 	$wp_customize->register_control_type( 'WP_Guten_Options_Customizer_Control' );
+
+	// Register customizer settings
+	$wp_customize->add_setting( 'wp_guten_customizer_select' );
+	$wp_customize->add_setting( 'wp_guten_customizer_text' );
+	$wp_customize->add_setting( 'wp_guten_customizer_text_2', [ 'type' => 'option' ] );
+	$wp_customize->add_setting( 'wp_guten_customizer_toggle', [ 'type' => 'option' ] );
+
 }
 add_action( 'customize_register', 'wp_guten_options_customizer_register', 10 );
