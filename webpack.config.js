@@ -6,5 +6,6 @@ module.exports = {
     entry: {
         ...defaultConfig.entry,
         admin: path.resolve( process.cwd(), 'src', 'admin.js' ),
+		customizer: path.resolve( process.cwd(), 'src', 'customizer.js' ),
     }
 };

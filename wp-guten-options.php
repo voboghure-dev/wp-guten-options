@@ -121,7 +121,7 @@ function wp_guten_options_admin_scripts() {
 			$script_asset['dependencies'],
 			$script_asset['version']
 	);
-	wp_set_script_translations( 'wp-guten-options-block-editor', 'wp-guten-options' );
+	wp_set_script_translations( 'wp-guten-options-admin-editor', 'wp-guten-options' );
 
 	$admin_css = 'build/admin.css';
 	wp_enqueue_style(
