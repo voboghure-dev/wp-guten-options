@@ -79,7 +79,7 @@ function wp_guten_options_register_settings() {
 		]
 	);
 
-	// Register so that we can get this option from gutenberg
+	// Register as REST true so that we can get this option from gutenberg
 	register_setting(
 		'wp_guten_customizer_settings',
 		'wp_guten_customizer_text_2',

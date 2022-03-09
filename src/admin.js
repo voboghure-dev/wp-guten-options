@@ -1,7 +1,8 @@
 import { __ } from "@wordpress/i18n";
 import api from "@wordpress/api";
-import "./admin.scss";
-
+import { render, Component } from "@wordpress/element";
+import Notices from "./notices";
+import { dispatch } from "@wordpress/data";
 import {
 	Button,
 	Icon,
@@ -14,22 +15,18 @@ import {
 	TextControl,
 	ToggleControl,
 } from "@wordpress/components";
-
-import { Fragment, render, Component } from "@wordpress/element";
-
-import Notices from "./notices";
-import { dispatch } from "@wordpress/data";
+import "./admin.scss";
 
 class App extends Component {
 	constructor() {
 		super(...arguments);
 
 		this.state = {
-			exampleSelect: "",
-			exampleText: "",
-			exampleText2: "",
-			exampleText3: "",
-			exampleToggle: false,
+			optionSelect: "",
+			optionText: "",
+			optionText2: "",
+			optionText3: "",
+			optionToggle: false,
 			isAPILoaded: false,
 		};
 	}
@@ -43,15 +40,15 @@ class App extends Component {
 			if (isAPILoaded === false) {
 				this.settings.fetch().then((response) => {
 					this.setState({
-						exampleSelect:
+						optionSelect:
 							response["wp_guten_options_select"],
-						exampleText:
+						optionText:
 							response["wp_guten_options_text"],
-						exampleText2:
+						optionText2:
 							response["wp_guten_options_text_2"],
-						exampleText3:
+						optionText3:
 							response["wp_guten_options_text_3"],
-						exampleToggle: Boolean(
+						optionToggle: Boolean(
 							response["wp_guten_options_toggle"]
 						),
 						isAPILoaded: true,
@@ -63,11 +60,11 @@ class App extends Component {
 
 	render() {
 		const {
-			exampleSelect,
-			exampleText,
-			exampleText2,
-			exampleText3,
-			exampleToggle,
+			optionSelect,
+			optionText,
+			optionText2,
+			optionText3,
+			optionToggle,
 			isAPILoaded,
 		} = this.state;
 
@@ -80,7 +77,7 @@ class App extends Component {
 		}
 
 		return (
-			<Fragment>
+			<>
 				<div className="wp-guten-options__header">
 					<div className="wp-guten-options__container">
 						<div className="wp-guten-options__title">
@@ -101,7 +98,7 @@ class App extends Component {
 							<SelectControl
 								help={__("An example dropdown field.", "wp-guten-options")}
 								label={__("Example Select", "wp-guten-options")}
-								onChange={(exampleSelect) => this.setState({ exampleSelect })}
+								onChange={(optionSelect) => this.setState({ optionSelect })}
 								options={[
 									{
 										label: __("Please Select...", "wp-guten-options"),
@@ -116,7 +113,7 @@ class App extends Component {
 										value: "option-2",
 									},
 								]}
-								value={exampleSelect}
+								value={optionSelect}
 							/>
 						</PanelBody>
 						<PanelBody
@@ -126,8 +123,8 @@ class App extends Component {
 							<TextControl
 								help={__("This is an example text field.", "wp-guten-options")}
 								label={__("Example Text", "wp-guten-options")}
-								onChange={(exampleText) => this.setState({ exampleText })}
-								value={exampleText}
+								onChange={(optionText) => this.setState({ optionText })}
+								value={optionText}
 							/>
 						</PanelBody>
 						<PanelBody
@@ -141,14 +138,14 @@ class App extends Component {
 										"wp-guten-options"
 									)}
 									label={__("Example Text 2", "wp-guten-options")}
-									onChange={(exampleText2) => this.setState({ exampleText2 })}
-									value={exampleText2}
+									onChange={(optionText2) => this.setState({ optionText2 })}
+									value={optionText2}
 								/>
 								<TextControl
 									help={__("This control is inline.", "wp-guten-options")}
 									label={__("Example Text 3", "wp-guten-options")}
-									onChange={(exampleText3) => this.setState({ exampleText3 })}
-									value={exampleText3}
+									onChange={(optionText3) => this.setState({ optionText3 })}
+									value={optionText3}
 								/>
 							</PanelRow>
 						</PanelBody>
@@ -157,10 +154,10 @@ class App extends Component {
 							icon="admin-plugins"
 						>
 							<ToggleControl
-								checked={exampleToggle}
+								checked={optionToggle}
 								help={__("An example toggle.", "wp-guten-options")}
 								label={__("Example Toggle", "wp-guten-options")}
-								onChange={(exampleToggle) => this.setState({ exampleToggle })}
+								onChange={(optionToggle) => this.setState({ optionToggle })}
 							/>
 						</PanelBody>
 						<Button
@@ -168,23 +165,23 @@ class App extends Component {
 							// isLarge
 							onClick={() => {
 								const {
-									exampleSelect,
-									exampleText,
-									exampleText2,
-									exampleText3,
-									exampleToggle,
+									optionSelect,
+									optionText,
+									optionText2,
+									optionText3,
+									optionToggle,
 								} = this.state;
 
 								const settings = new api.models.Settings({
 									["wp_guten_options_select"]:
-										exampleSelect,
-									["wp_guten_options_text"]: exampleText,
+										optionSelect,
+									["wp_guten_options_text"]: optionText,
 									["wp_guten_options_text_2"]:
-										exampleText2,
+										optionText2,
 									["wp_guten_options_text_3"]:
-										exampleText3,
+										optionText3,
 									["wp_guten_options_toggle"]:
-										exampleToggle ? "true" : "",
+										optionToggle ? "true" : "",
 								});
 								settings.save();
 
@@ -206,7 +203,7 @@ class App extends Component {
 				<div className="wp-guten-options__notices">
 					<Notices />
 				</div>
-			</Fragment>
+			</>
 		);
 	}
 }

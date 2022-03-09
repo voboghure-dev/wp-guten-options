@@ -1,7 +1,4 @@
-import "./customizer.scss";
-
-const { api } = wp;
-
+import { __ } from "@wordpress/i18n";
 import {
 	Panel,
 	PanelBody,
@@ -11,12 +8,10 @@ import {
 	TextControl,
 	ToggleControl,
 } from "@wordpress/components";
+import { render, Component } from "@wordpress/element";
+import "./customizer.scss";
 
-import { Fragment, render, Component } from "@wordpress/element";
-
-import { __ } from "@wordpress/i18n";
-
-const { customize } = wp;
+const { api, customize } = wp;
 
 class App extends Component {
 	constructor() {
@@ -69,7 +64,7 @@ class App extends Component {
 		}
 
 		return (
-			<Fragment>
+			<>
 				<div className="wp-guten-customizer__main">
 					<Panel>
 						<PanelBody
@@ -153,7 +148,39 @@ class App extends Component {
 						</PanelBody>
 					</Panel>
 				</div>
-			</Fragment>
+			</>
 		);
 	}
 }
+
+customize.bind("ready", function () {
+	const panelKey = "wp-guten-customizer-panel";
+	const sectionKey = "wp-guten-customizer-section";
+
+	customize.panel.add(
+		new customize.Panel(panelKey, {
+			description: __("WP Gutenberg Example Panel", "wp-guten-options"),
+			priority: 1000,
+			title: __("WP Gutenberg Panel", "wp-guten-options"),
+		})
+	);
+	customize.section.add(
+		new customize.Section(sectionKey, {
+			customizeAction: __("WP Gutenberg ▸ Section", "wp-guten-options"),
+			panel: panelKey,
+			title: __("WP Gutenberg Section", "wp-guten-options"),
+		})
+	);
+
+	customize.control.add(
+		new customize.Control("wp-guten-customizer-gutenberg-control", {
+			section: sectionKey,
+			type: "wp-guten-customizer-gutenberg-control",
+		})
+	);
+
+	const htmlOutput = document.getElementById("wp-guten-customizer");
+	if (htmlOutput) {
+		render(<App />, htmlOutput);
+	}
+});
