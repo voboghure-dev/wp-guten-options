@@ -11,7 +11,9 @@ import {
 import { render, Component } from "@wordpress/element";
 import "./customizer.scss";
 
-const { api, customize } = wp;
+const { customize } = wp;
+
+import api from "@wordpress/api";
 
 class App extends Component {
 	constructor() {
@@ -173,9 +175,9 @@ customize.bind("ready", function () {
 	);
 
 	customize.control.add(
-		new customize.Control("wp-guten-customizer-gutenberg-control", {
+		new customize.Control("wp-guten-customizer-control", {
 			section: sectionKey,
-			type: "wp-guten-customizer-gutenberg-control",
+			type: "wp-guten-customizer-control",
 		})
 	);
 
