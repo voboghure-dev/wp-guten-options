@@ -1,8 +1,8 @@
-=== Wp Guten Options ===
-Contributors:      The WordPress Contributors
+=== WP Guten Options ===
+Contributors:      voboghure
 Tags:              block
 Tested up to:      5.9
-Stable tag:        0.1.0
+Stable tag:        1.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -10,10 +10,7 @@ Example static block scaffolded with Create Block tool.
 
 == Description ==
 
-This is the long description. No limit, and you can use Markdown (as well as in the following sections).
-
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+Example of option page and customizer with Gutenberg block
 
 == Installation ==
 
@@ -45,8 +42,8 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 
 == Changelog ==
 
-= 0.1.0 =
-* Release
+= 1.0.0 - 2022-03-10 =
+* initial Release
 
 == Arbitrary section ==
 
