@@ -80,7 +80,16 @@ function wp_guten_options_register_settings() {
     ]
   );
 
-  // Register as REST true so that we can get this option from gutenberg
+	register_setting(
+    'wp_guten_options_settings',
+    'wp_guten_options_logo',
+    [
+      'default'      => '',
+      'show_in_rest' => true,
+      'type'         => 'string',
+    ]
+  );
+
   register_setting(
     'wp_guten_customizer_settings',
     'wp_guten_customizer_text_2',
